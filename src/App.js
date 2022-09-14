@@ -1,19 +1,29 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
-  const restaurantName = ['Star Kabab', 'Kacchi Vai', 'Crimson Lake'];
-  const ratingStatus = ['Excellent restaurant of the bangladesh', 'Good Quality restaurant in the city', 'Best Restaurant in the world']
+  const [restaurantName, setRestaurant] = useState([]);
+  useEffect(()=>{
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then(data =>setRestaurant(data))
+
+  }, [])
+  //const restaurantName = [{name:'Star Kabab', rating:'Excellent'}, {name:'Kacchi Vai', rating:'Better'}, {name:'Crimson Lake', rating:'Good'}, {name:'Pizza Hut', rating:'Poor'}];
   return (
     <div className="App">
       <header className="App-header">
 
         <RestaurantCounter></RestaurantCounter>
 
-        <Restaurant name={restaurantName[0]} rate={ratingStatus[0]}></Restaurant>
+       {
+         restaurantName.map(item => <Restaurant name={item.name} key={item.id} rate={item.rating}></Restaurant>)
+       }
+
+        {/* <Restaurant name={restaurantName[0]} rate={ratingStatus[0]}></Restaurant>
         <Restaurant name={restaurantName[1]} rate={ratingStatus[1]}></Restaurant>
-        <Restaurant name={restaurantName[2]} rate={ratingStatus[2]}></Restaurant>
+        <Restaurant name={restaurantName[2]} rate={ratingStatus[2]}></Restaurant> */}
         
 
         {/* <Restaurant name="Star Kabab" rate="Excellent restaurant of the bangladesh"></Restaurant>
